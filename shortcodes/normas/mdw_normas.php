@@ -85,32 +85,32 @@ function mdw_query_normas_loop_with_pagination($args)
 /**
  * Función para la respuesta del Ajax
  */
-// if (!function_exists('mdw_norma_ajax_filter')) {
-//   add_action('wp_ajax_nopriv_mdw_norma_ajax_filter', 'mdw_norma_ajax_filter');
-//   add_action('wp_ajax_mdw_norma_ajax_filter', 'mdw_norma_ajax_filter');
+if (!function_exists('mdw_norma_ajax_filter')) {
+  add_action('wp_ajax_nopriv_mdw_norma_ajax_filter', 'mdw_norma_ajax_filter');
+  add_action('wp_ajax_mdw_norma_ajax_filter', 'mdw_norma_ajax_filter');
 
-//   function mdw_norma_ajax_filter()
-//   {
-//     check_ajax_referer('load_more_nonce', 'nonce');
+  function mdw_norma_ajax_filter()
+  {
+    check_ajax_referer('load_more_nonce', 'nonce');
 
-//     // Obtener la página y otros parámetros del POST
-//     $page = $_POST['page'];
-//     $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
-//     $post_per_page = $_POST['post_per_page'];
+    // Obtener la página y otros parámetros del POST
+    $page = $_POST['page'];
+    $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+    $post_per_page = $_POST['post_per_page'];
 
-//     // Configurar los argumentos de la consulta, incluyendo la paginación
-//     $args = array(
-//       'post_type'       => 'normas',
-//       'posts_per_page'  => $post_per_page,
-//       'paged'           => $page, // Usar la página actual
-//       's'               => $search, // Filtrar por búsqueda si hay
-//     );
+    // Configurar los argumentos de la consulta, incluyendo la paginación
+    $args = array(
+      'post_type'       => 'normas',
+      'posts_per_page'  => $post_per_page,
+      'paged'           => $page, // Usar la página actual
+      's'               => $search, // Filtrar por búsqueda si hay
+    );
 
-//     // Obtener el loop de los posts y la paginación
-//     $query_loop = mdw_query_normas_loop_with_pagination($args);
+    // Obtener el loop de los posts y la paginación
+    $query_loop = mdw_query_normas_loop_with_pagination($args);
 
-//     // Enviar la respuesta AJAX con el HTML del loop y la paginación
-//     wp_send_json_success($query_loop);
-//     wp_die();
-//   }
-// }
+    // Enviar la respuesta AJAX con el HTML del loop y la paginación
+    wp_send_json_success($query_loop);
+    wp_die();
+  }
+}
