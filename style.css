@@ -1,0 +1,69 @@
+/*
+Theme Name: UGPP
+Author: 
+Description: Your description goes here
+Version: 1.0
+Template: hello-elementor
+
+This is the child theme for Hello Elementor theme, generated with Generate Child Theme plugin by catchthemes.
+
+(optional values you can add: Theme URI, Author URI, License, License URI, Tags, Text Domain)
+*/
+
+/*Estilos del paginador*/
+.mdw__pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+
+  .page-numbers {
+    font-size: 12px;
+    font-family: 'Montserrat', 'Segoe UI Semibold', sans-serif;
+    font-weight: 600;
+    color: #124491;
+    padding: 8px;
+    border-radius: 3px;
+
+    &.current {
+      background-color: #36C;
+      color: white;
+    }
+  }
+}
+
+/*Estilos del input search*/
+.mdw__search_field {
+  width: 330px;
+
+  .mdw__search_input {
+    padding: 6px 40px 6px 16px;
+    width: 100%;
+    border: 1px solid #C9C9C9;
+    border-radius: 8px;
+
+    &:focus {
+      border: 2px solid #36c;
+      box-shadow: 0 4px #e6effd;
+      outline-color: #36c;
+    }
+  }
+
+  .mdw__search_icon {
+    background-image: url('./assets/img/search.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #fff;
+    background-size: 17px;
+    font-size: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #3366cc;
+    border-radius: 50%;
+    border: none;
+    position: absolute;
+    right: -14px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+}
