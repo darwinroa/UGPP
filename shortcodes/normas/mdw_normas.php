@@ -80,8 +80,6 @@ function mdw_query_normas_loop_with_pagination($args)
   return $html;
 }
 
-
-
 /**
  * Función para la respuesta del Ajax
  */
@@ -129,5 +127,62 @@ if (!function_exists('mdw_norma_ajax_filter')) {
     // Enviar la respuesta AJAX con el HTML del loop y la paginación
     wp_send_json_success($query_loop);
     wp_die();
+  }
+}
+
+if (!function_exists('mdw_type_file_function')) {
+  add_shortcode('mdw_type_file', 'mdw_type_file_function');
+
+  function mdw_type_file_function()
+  {
+    $file = get_field('cargar_documento');
+    $isTypeSheet = false;
+    $html = '';
+    if ($file) {
+      // Obtener la extensión del archivo y el tipo MIME
+      $mime_type = $file['mime_type'];
+      $filename = $file['filename'];
+      $fileSize = $file['filesize'];
+      $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+      // Definir los tipos MIME y extensiones de los archivos de Excel
+      $excel_mime_types = array(
+        'application/vnd.ms-excel', // .xls
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+        'application/vnd.ms-excel.sheet.macroenabled.12', // .xlsb
+        'text/csv' // .csv
+      );
+
+      $excel_extensions = array(
+        'xls',
+        'xlsx',
+        'xlsb',
+        'csv'
+      );
+
+      // Verificar si el tipo MIME o la extensión coincide con los tipos de archivo Excel
+      if (in_array($mime_type, $excel_mime_types) || in_array(strtolower($file_extension), $excel_extensions)) {
+        // Si es un archivo de Excel
+        $isTypeSheet = true;
+      } else {
+        // Si no es un archivo de Excel
+        $isTypeSheet = false;
+      }
+    } else {
+      // No hay archivo cargado
+      $isTypeSheet = false;
+    }
+
+    $urlImage = $isTypeSheet ?
+      get_stylesheet_directory_uri() . '/assets/img/excel_icon.svg' :
+      get_stylesheet_directory_uri() . '/assets/img/icono_PDF.png';
+
+    $html .= "
+      <div class='mdw__type_file'>
+        <img src='$urlImage' alt='$filename' class='mdw__type_file-type'>
+        <span class='mdw__type_file-size'>$fileSize KB</span>
+      </div>";
+
+    return $html;
   }
 }

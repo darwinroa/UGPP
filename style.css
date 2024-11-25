@@ -110,3 +110,9 @@ This is the child theme for Hello Elementor theme, generated with Generate Child
     }
   }
 }
+
+.mdw__type_file .mdw__type_file-size {
+  font-family: 'Work Sans';
+  font-size: 11px;
+  color: #484848;
+}
