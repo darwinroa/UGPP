@@ -29,3 +29,4 @@ require 'shortcodes/normas/mdw_normas.php'; // Normas
 ///////////////////////UTILIDADES GENRALES/////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 require 'utilities/mdw_html_search_input.php'; // Search input filter
+require 'utilities/mdw_filtro_tipos_de_normas.php'; // Normas filter

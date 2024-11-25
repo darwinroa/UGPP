@@ -6,6 +6,8 @@ jQuery(document).ready(function($) {
   // Verificar si hay un parámetro de búsqueda en la URL
   var urlParams = new URLSearchParams(window.location.search);
   var searchParam = urlParams.get('search');
+
+  var filterParam = '';
   
   if (searchParam) {
     $('#mdw-search-normas').val(searchParam); // Establecer el valor en el campo de búsqueda
@@ -13,13 +15,13 @@ jQuery(document).ready(function($) {
     isLoadMore = false;
 
     // Realizar la búsqueda automáticamente al cargar la página
-    mdwNormasAjax(page);
+    mdwNormasAjax();
   }
 
   $(document).on('change', '#mdw-search-form-normas', function() {
     page = 1; // Inicializando el paginado cada vez que se desea filtrar
     isLoadMore = false;
-    mdwNormasAjax(page);
+    mdwNormasAjax();
   });
 
   // Evento para hacer búsqueda en tiempo real
@@ -37,7 +39,7 @@ jQuery(document).ready(function($) {
     }
 
     // Realizar la nueva búsqueda al escribir
-    ajaxRequest = mdwNormasAjax(page);
+    ajaxRequest = mdwNormasAjax();
   });
   
   // Se ejecuta al momento de presionar sobre el botón de reset
@@ -46,13 +48,30 @@ jQuery(document).ready(function($) {
     isLoadMore = false;
     // Reiniciar el formulario de filtros
     $('#mdw__form-filter-normas')[0].reset();
-    mdwNormasAjax(page);
+    mdwNormasAjax();
+  });
+
+  // Manejar el evento click sobre los elementos con la clase .mdw__taxonomy_filter-item
+  $('.mdw__taxonomy_filter-item').on('click', function() {
+    // Eliminar la clase 'active' de todos los elementos
+    $('.mdw__taxonomy_filter-item').removeClass('active');
+    
+    // Añadir la clase 'active' solo al elemento que fue clickeado
+    $(this).addClass('active');
+
+    filterParam = $(this).data('filter');
+    $('#mdw__slug_taxonomy').val(filterParam)
+
+    page = 1; // Inicializando el paginado cada vez que se desea filtrar
+    isLoadMore = false;
+    mdwNormasAjax();
   });
 
   // Función Ajax para la petición del filtro y el cargar más
   function mdwNormasAjax() {
     const search = $('#mdw-search-normas').val(); // Nuevo campo de búsqueda 
-    console.log('busqueda', search);
+    const  taxonomy = $('#mdw__slug_taxonomy').val(); // Compo de slug taxonomy 
+    console.log('taxonomy-->', taxonomy);
 
     // Retornar la solicitud AJAX para poder cancelarla si es necesario
     return $.ajax({
@@ -63,6 +82,7 @@ jQuery(document).ready(function($) {
         nonce: wp_ajax.nonce,
         post_per_page: wp_ajax.post_per_page,
         search,
+        taxonomy,
       },
       beforeSend: function() {
         const loaderUrl = wp_ajax.theme_directory_uri + '/assets/img/ri-preloader.svg';

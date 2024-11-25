@@ -52,7 +52,6 @@ jQuery(document).ready(function($) {
   // Función Ajax para la petición del filtro y el cargar más
   function mdwTramitesAjax() {
     const search = $('#mdw-search-tramites').val(); // Nuevo campo de búsqueda 
-    console.log('busqueda', search);
 
     // Retornar la solicitud AJAX para poder cancelarla si es necesario
     return $.ajax({

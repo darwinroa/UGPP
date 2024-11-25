@@ -96,15 +96,32 @@ if (!function_exists('mdw_norma_ajax_filter')) {
     // Obtener la página y otros parámetros del POST
     $page = $_POST['page'];
     $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+    $taxonomy = isset($_POST['taxonomy']) ? sanitize_text_field($_POST['taxonomy']) : '';
     $post_per_page = $_POST['post_per_page'];
 
     // Configurar los argumentos de la consulta, incluyendo la paginación
+    // Iniciar el array de argumentos para la consulta
     $args = array(
       'post_type'       => 'normas',
       'posts_per_page'  => $post_per_page,
       'paged'           => $page, // Usar la página actual
-      's'               => $search, // Filtrar por búsqueda si hay
     );
+
+    // Si existe el parámetro de búsqueda (search)
+    if ($search) {
+      $args['s'] = $search; // Filtrar por búsqueda
+    }
+
+    // Si existe el parámetro de taxonomía (taxonomy)
+    if ($taxonomy) {
+      $args['tax_query'] = array(
+        array(
+          'taxonomy' => 'tipo_de_norma', // Nombre de la taxonomía
+          'field'    => 'slug',          // Puede ser 'term_id', 'name' o 'slug'
+          'terms'    => $taxonomy,       // Término o array de términos a los que se filtra
+        ),
+      );
+    }
 
     // Obtener el loop de los posts y la paginación
     $query_loop = mdw_query_normas_loop_with_pagination($args);
