@@ -77,22 +77,36 @@ This is the child theme for Hello Elementor theme, generated with Generate Child
     gap: 0;
   }
   
-  .mdw__taxonomy_filter-item.parent {
-    font-size: 18px;
-    font-family: 'Montserrat', 'Segoe UI Semibold', sans-serif;
-    font-weight: 600;
-    color: #004884;
-    padding: 20px 0;
-    cursor: pointer;
-  }
-  
-  .mdw__taxonomy_filter-item.child {
-    color: #4B4B4B;
-    font-size: 16px;
-    font-family: "Work Sans";
-    font-weight: normal;
-    padding-left: 20px;
-    padding-bottom: 10px;
-    cursor: pointer;
+  .mdw__taxonomy_filter-item {
+    position: relative;
+    
+    &.parent {
+      font-size: 18px;
+      font-family: 'Montserrat', 'Segoe UI Semibold', sans-serif;
+      font-weight: 600;
+      color: #004884;
+      padding: 20px 0;
+      cursor: pointer;
+    }
+    
+    &.child {
+      color: #4B4B4B;
+      font-size: 16px;
+      font-family: "Work Sans";
+      font-weight: normal;
+      padding-left: 20px;
+      padding-bottom: 10px;
+      cursor: pointer;
+    
+      &.active::before {
+        content: '';
+        background: #48BEDE;
+        height: 12px;
+        position: absolute;
+        left: 10px;
+        top: 18%;
+        width: 2px;
+      }
+    }
   }
 }
