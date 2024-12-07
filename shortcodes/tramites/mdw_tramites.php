@@ -53,7 +53,7 @@ function mdw_query_tramites_loop_with_pagination($args)
 
     // Recorrer los posts
     while ($query->have_posts()) : $query->the_post();
-      $html .= do_shortcode('[elementor-template id="31"]');
+      $html .= do_shortcode('[elementor-template id="1052"]');
     endwhile;
 
     // Mostrar los posts

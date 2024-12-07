@@ -53,7 +53,7 @@ function mdw_query_normas_loop_with_pagination($args)
 
     // Recorrer los posts
     while ($query->have_posts()) : $query->the_post();
-      $html .= do_shortcode('[elementor-template id="149"]');
+      $html .= do_shortcode('[elementor-template id="1042"]');
     endwhile;
 
     // Mostrar los posts
@@ -171,6 +171,8 @@ if (!function_exists('mdw_type_file_function')) {
     } else {
       // No hay archivo cargado
       $isTypeSheet = false;
+      $filename = '';
+      $fileSize = '';
     }
 
     $urlImage = $isTypeSheet ?
