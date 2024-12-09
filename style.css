@@ -116,3 +116,16 @@ This is the child theme for Hello Elementor theme, generated with Generate Child
   font-size: 11px;
   color: #484848;
 }
+
+.pagination-button {
+  &.active {
+    background-color: green;
+  }
+}
+
+.pagination-dots {
+  padding: 0 10px;
+  color: #666;
+  font-weight: bold;
+  cursor: default;
+}

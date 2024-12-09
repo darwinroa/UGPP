@@ -14,25 +14,12 @@ if (!function_exists('mdw_tramites_function')) {
       'post_per_page'       => $post_per_page,
     ));
 
-    // Obtiene la página actual para la paginación
-    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-
-    $args = array(
-      'post_type'       => 'tramites',
-      'posts_per_page'  => $post_per_page,
-      'paged'           => $paged,
-    );
-
-    // Llamada a la función combinada
-    $query_loop = mdw_query_tramites_loop_with_pagination($args);
-
     ob_start();
     $html = '';
     $html .= "
       <div id='mdw__tramites_section' class='mdw__tramites_section'>
         <div class='mdw__content_loop'>
           <div class='mdw__content_loop-grid'>
-            $query_loop
           </div>
         </div>
       </div>
@@ -56,21 +43,55 @@ function mdw_query_tramites_loop_with_pagination($args)
       $html .= do_shortcode('[elementor-template id="1052"]');
     endwhile;
 
-    // Mostrar los posts
     $html .= ob_get_clean();
 
-    // Agregar la paginación si es necesario
+    // Agregar la paginación con data-page si es necesario
     if ($query->max_num_pages > 1) {
-      $big = 999999999; // Número que nunca será válido para la página
-      $pagination = paginate_links(array(
-        'base'      => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-        'format'    => '?paged=%#%',
-        'current'   => max(1, get_query_var('paged')),
-        'total'     => $query->max_num_pages,
-        'prev_text' => __('« Anterior'),
-        'next_text' => __('Siguiente »'),
-      ));
-      $html .= "<div class='mdw__pagination'>$pagination</div>"; // Incluir los enlaces de paginación
+      $current_page = $args['paged'];
+      $html .= "<div class='mdw__pagination'>";
+
+      // Si el total de páginas es mayor a 10
+      if ($query->max_num_pages > 10) {
+        // Mostrar las primeras 4 páginas
+        for ($i = 1; $i <= 4; $i++) {
+          $active_class = ($i === $current_page) ? 'active' : '';
+          $html .= "<button class='pagination-button $active_class' data-page='$i'>$i</button>";
+        }
+
+        // Si la página actual está lejos de las últimas páginas
+        if ($current_page >= 4 && $current_page <= ($query->max_num_pages - 3)) {
+          if ($current_page - 2 > 5) {
+            $html .= "<span class='pagination-dots'>...</span>";
+          }
+          for ($i = $current_page - 2; $i <= $current_page + 2; $i++) {
+            if ($i <= 4 || $i >= $query->max_num_pages - 3) continue;
+            $active_class = ($i === $current_page) ? 'active' : '';
+            $html .= "<button class='pagination-button $active_class' data-page='$i'>$i</button>";
+          }
+          if ($current_page + 2 < ($query->max_num_pages - 4)) {
+            $html .= "<span class='pagination-dots'>...</span>";
+          }
+        } else if ($current_page <= 4 || $current_page > ($query->max_num_pages - 3)) {
+          $html .= "<span class='pagination-dots'>...</span>";
+        }
+
+        // Mostrar las últimas 4 páginas
+        for ($i = max($query->max_num_pages - 3, 5); $i <= $query->max_num_pages; $i++) {
+          if ($current_page > 4 && $current_page < max($query->max_num_pages - 3, 5)) {
+            // continue;
+          }
+          $active_class = ($i === $current_page) ? 'active' : '';
+          $html .= "<button class='pagination-button $active_class' data-page='$i'>$i</button>";
+        }
+      } else {
+        // Si el total de páginas es menor o igual a 10, mostrar todas las páginas
+        for ($i = 1; $i <= $query->max_num_pages; $i++) {
+          $active_class = ($i === $current_page) ? 'active' : '';
+          $html .= "<button class='pagination-button $active_class' data-page='$i'>$i</button>";
+        }
+      }
+
+      $html .= "</div>"; // Cerrar el contenedor de paginación
     }
   } else {
     $html .= ""; // Si no hay posts, no mostrar nada
@@ -79,7 +100,6 @@ function mdw_query_tramites_loop_with_pagination($args)
   wp_reset_postdata(); // Resetea los datos del post
   return $html;
 }
-
 
 
 /**
@@ -101,6 +121,7 @@ if (!function_exists('mdw_tramite_ajax_filter')) {
     // Configurar los argumentos de la consulta, incluyendo la paginación
     $args = array(
       'post_type'       => 'tramites',
+      'post_status'     => 'publish',
       'posts_per_page'  => $post_per_page,
       'paged'           => $page, // Usar la página actual
       's'               => $search, // Filtrar por búsqueda si hay
