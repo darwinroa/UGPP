@@ -23,6 +23,9 @@ jQuery(document).ready(function ($) {
   $(document).on('change', '#mdw-search-form-tramites', function () {
     page = 1; // Reiniciar el paginado cada vez que se desea filtrar
     isLoadMore = false;
+    var search = $('#mdw-search-tramites').val();
+    // Actualizar la URL con el nuevo parámetro de búsqueda
+    updateURL(search, page);
     mdwTramitesAjax(page);
   });
 
@@ -39,6 +42,10 @@ jQuery(document).ready(function ($) {
       ajaxRequest.abort();
     }
 
+    // Obtener el valor de búsqueda y actualizar la URL
+    var search = $('#mdw-search-tramites').val();
+    updateURL(search, page);
+
     // Realizar la nueva búsqueda
     ajaxRequest = mdwTramitesAjax(page);
   });
@@ -48,6 +55,7 @@ jQuery(document).ready(function ($) {
     page = 1; // Reiniciar el paginado
     isLoadMore = false;
     $('#mdw__form-filter-tramites')[0].reset(); // Resetear el formulario
+    updateURL('', page); // Limpiar el parámetro de búsqueda en la URL
     mdwTramitesAjax(page);
   });
 
@@ -58,15 +66,21 @@ jQuery(document).ready(function ($) {
       page = newPage;
 
       // Actualizar el parámetro 'page' en la URL
-      const url = new URL(window.location.href);
-      url.searchParams.set('page', page);
-      window.history.pushState({}, '', url); // Actualiza la barra de direcciones sin recargar
+      updateURL($('#mdw-search-tramites').val(), page);
 
       // Realizar la solicitud AJAX para la nueva página
       isLoadMore = false;
       mdwTramitesAjax(page);
     }
   });
+
+  // Función para actualizar la URL
+  function updateURL(search, page) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('search', search); // Actualiza el parámetro `search` con el valor de búsqueda
+    url.searchParams.set('page', page); // Actualiza el parámetro `page`
+    window.history.pushState({}, '', url); // Actualiza la barra de direcciones sin recargar
+  }
 
   // Función Ajax para la petición del filtro y el cargar más
   function mdwTramitesAjax(page) {
@@ -145,4 +159,3 @@ jQuery(document).ready(function ($) {
       e.preventDefault();
   });
 });
-
