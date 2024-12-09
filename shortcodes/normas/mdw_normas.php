@@ -14,25 +14,12 @@ if (!function_exists('mdw_normas_function')) {
       'post_per_page'       => $post_per_page,
     ));
 
-    // Obtiene la página actual para la paginación
-    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-
-    $args = array(
-      'post_type'       => 'normas',
-      'posts_per_page'  => $post_per_page,
-      'paged'           => $paged,
-    );
-
-    // Llamada a la función combinada
-    $query_loop = mdw_query_normas_loop_with_pagination($args);
-
     ob_start();
     $html = '';
     $html .= "
       <div id='mdw__normas_section' class='mdw__normas_section'>
         <div class='mdw__content_loop'>
           <div class='mdw__content_loop-grid'>
-            $query_loop
           </div>
         </div>
       </div>
@@ -59,19 +46,8 @@ function mdw_query_normas_loop_with_pagination($args)
     // Mostrar los posts
     $html .= ob_get_clean();
 
-    // Agregar la paginación si es necesario
-    if ($query->max_num_pages > 1) {
-      $big = 999999999; // Número que nunca será válido para la página
-      $pagination = paginate_links(array(
-        'base'      => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-        'format'    => '?paged=%#%',
-        'current'   => max(1, get_query_var('paged')),
-        'total'     => $query->max_num_pages,
-        'prev_text' => __('« Anterior'),
-        'next_text' => __('Siguiente »'),
-      ));
-      $html .= "<div class='mdw__pagination'>$pagination</div>"; // Incluir los enlaces de paginación
-    }
+    // Agregar la paginación con data-page
+    $html .= mdw_pagination($query, $args['paged']);
   } else {
     $html .= ""; // Si no hay posts, no mostrar nada
   }

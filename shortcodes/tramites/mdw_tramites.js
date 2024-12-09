@@ -1,5 +1,4 @@
 jQuery(document).ready(function ($) {
-  var page = 1; // Inicializando el paginado
   var isLoadMore = false;
   var ajaxRequest; // Variable para almacenar la solicitud AJAX activa
 
@@ -13,9 +12,7 @@ jQuery(document).ready(function ($) {
   }
 
   // Si el parámetro `page` existe, actualizar el valor de la página
-  if (pageParam) {
-    page = parseInt(pageParam);
-  }
+  page = pageParam ? parseInt(pageParam) : 1;
 
   // Realizar la búsqueda automáticamente al cargar la página
   mdwTramitesAjax(page);

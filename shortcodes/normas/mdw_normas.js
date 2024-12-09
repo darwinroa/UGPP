@@ -6,21 +6,26 @@ jQuery(document).ready(function($) {
   // Verificar si hay un parámetro de búsqueda en la URL
   var urlParams = new URLSearchParams(window.location.search);
   var searchParam = urlParams.get('search');
+  var pageParam = urlParams.get('page');
 
   var filterParam = '';
   
   if (searchParam) {
     $('#mdw-search-normas').val(searchParam); // Establecer el valor en el campo de búsqueda
-    page = 1;
-    isLoadMore = false;
-
-    // Realizar la búsqueda automáticamente al cargar la página
-    mdwNormasAjax();
   }
+
+  // Si el parámetro `page` existe, actualizar el valor de la página
+  page = pageParam ? parseInt(pageParam) : 1;
+  
+  // Realizar la búsqueda automáticamente al cargar la página
+  mdwNormasAjax();
 
   $(document).on('change', '#mdw-search-form-normas', function() {
     page = 1; // Inicializando el paginado cada vez que se desea filtrar
     isLoadMore = false;
+    var search = $('#mdw-search-normas').val();
+    // Actualizar la URL con el nuevo parámetro de búsqueda
+    updateURL(search, page);
     mdwNormasAjax();
   });
 
@@ -38,6 +43,10 @@ jQuery(document).ready(function($) {
       ajaxRequest.abort();
     }
 
+    // Obtener el valor de búsqueda y actualizar la URL
+    var search = $('#mdw-search-normas').val();
+    updateURL(search, page);
+
     // Realizar la nueva búsqueda al escribir
     ajaxRequest = mdwNormasAjax();
   });
@@ -48,6 +57,7 @@ jQuery(document).ready(function($) {
     isLoadMore = false;
     // Reiniciar el formulario de filtros
     $('#mdw__form-filter-normas')[0].reset();
+    updateURL('', page); // Limpiar el parámetro de búsqueda en la URL
     mdwNormasAjax();
   });
 
@@ -67,11 +77,33 @@ jQuery(document).ready(function($) {
     mdwNormasAjax();
   });
 
+  // Evento para manejar los botones de paginación
+  $(document).on('click', '.pagination-button', function () {
+    const newPage = $(this).data('page'); // Obtener el número de página del botón
+    if (newPage !== page) {
+      page = newPage;
+
+      // Actualizar el parámetro 'page' en la URL
+      updateURL($('#mdw-search-normas').val(), page);
+
+      // Realizar la solicitud AJAX para la nueva página
+      isLoadMore = false;
+      mdwNormasAjax(page);
+    }
+  });
+
+  // Función para actualizar la URL
+  function updateURL(search, page) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('search', search); // Actualiza el parámetro `search` con el valor de búsqueda
+    url.searchParams.set('page', page); // Actualiza el parámetro `page`
+    window.history.pushState({}, '', url); // Actualiza la barra de direcciones sin recargar
+  }
+
   // Función Ajax para la petición del filtro y el cargar más
   function mdwNormasAjax() {
     const search = $('#mdw-search-normas').val(); // Nuevo campo de búsqueda 
     const  taxonomy = $('#mdw__slug_taxonomy').val(); // Compo de slug taxonomy 
-    console.log('taxonomy-->', taxonomy);
 
     // Retornar la solicitud AJAX para poder cancelarla si es necesario
     return $.ajax({
@@ -83,6 +115,7 @@ jQuery(document).ready(function($) {
         post_per_page: wp_ajax.post_per_page,
         search,
         taxonomy,
+        page,
       },
       beforeSend: function() {
         const loaderUrl = wp_ajax.theme_directory_uri + '/assets/img/ri-preloader.svg';

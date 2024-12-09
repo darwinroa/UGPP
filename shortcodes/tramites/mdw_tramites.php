@@ -45,7 +45,7 @@ function mdw_query_tramites_loop_with_pagination($args)
 
     $html .= ob_get_clean();
 
-    // Agregar la paginación con data-page si es necesario
+    // Agregar la paginación con data-page
     $html .= mdw_pagination($query, $args['paged']);
   } else {
     $html .= ""; // Si no hay posts, no mostrar nada
