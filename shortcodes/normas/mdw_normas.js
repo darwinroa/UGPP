@@ -96,7 +96,7 @@ jQuery(document).ready(function($) {
   function updateURL(search, page) {
     const url = new URL(window.location.href);
     url.searchParams.set('search', search); // Actualiza el parámetro `search` con el valor de búsqueda
-    url.searchParams.set('page', page); // Actualiza el parámetro `page`
+    // url.searchParams.set('page', page); // Actualiza el parámetro `page`
     window.history.pushState({}, '', url); // Actualiza la barra de direcciones sin recargar
   }
 

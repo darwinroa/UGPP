@@ -13,7 +13,7 @@ function mdw_pagination($query, $current_page)
     if ($query->max_num_pages > 10) {
       // Mostrar las primeras 4 páginas
       for ($i = 1; $i <= 4; $i++) {
-        $active_class = ($i === $current_page) ? 'active' : '';
+        $active_class = ($i == $current_page) ? 'active' : '';
         $html .= "<button class='pagination-button mdw__page_numbers $active_class' data-page='$i'>$i</button>";
       }
 
@@ -24,7 +24,7 @@ function mdw_pagination($query, $current_page)
         }
         for ($i = $current_page - 2; $i <= $current_page + 2; $i++) {
           if ($i <= 4 || $i >= $query->max_num_pages - 3) continue;
-          $active_class = ($i === $current_page) ? 'active' : '';
+          $active_class = ($i == $current_page) ? 'active' : '';
           $html .= "<button class='pagination-button mdw__page_numbers $active_class' data-page='$i'>$i</button>";
         }
         if ($current_page + 2 < ($query->max_num_pages - 4)) {
@@ -39,13 +39,13 @@ function mdw_pagination($query, $current_page)
         if ($current_page > 4 && $current_page < max($query->max_num_pages - 3, 5)) {
           // continue;
         }
-        $active_class = ($i === $current_page) ? 'active' : '';
+        $active_class = ($i == $current_page) ? 'active' : '';
         $html .= "<button class='pagination-button mdw__page_numbers $active_class' data-page='$i'>$i</button>";
       }
     } else {
       // Si el total de páginas es menor o igual a 10, mostrar todas las páginas
       for ($i = 1; $i <= $query->max_num_pages; $i++) {
-        $active_class = ($i === $current_page) ? 'active' : '';
+        $active_class = ($i == $current_page) ? 'active' : '';
         $html .= "<button class='pagination-button mdw__page_numbers $active_class' data-page='$i'>$i</button>";
       }
     }

@@ -77,6 +77,7 @@ if (!function_exists('mdw_norma_ajax_filter')) {
     // Iniciar el array de argumentos para la consulta
     $args = array(
       'post_type'       => 'normas',
+      'post_status'     => 'publish',
       'posts_per_page'  => $post_per_page,
       'paged'           => $page, // Usar la página actual
     );

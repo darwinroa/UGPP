@@ -15,6 +15,7 @@ This is the child theme for Hello Elementor theme, generated with Generate Child
   display: flex;
   justify-content: center;
   gap: 5px;
+  margin-top: 2rem;
 
   .mdw__page_numbers {
     font-size: 12px;
@@ -25,7 +26,6 @@ This is the child theme for Hello Elementor theme, generated with Generate Child
     border-radius: 3px;
     background: transparent;
     border: none;
-    margin-top: 2rem;
 
     &.active {
       background-color: #36C;
