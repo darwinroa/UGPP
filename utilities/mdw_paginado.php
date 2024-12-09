@@ -14,7 +14,7 @@ function mdw_pagination($query, $current_page)
       // Mostrar las primeras 4 páginas
       for ($i = 1; $i <= 4; $i++) {
         $active_class = ($i === $current_page) ? 'active' : '';
-        $html .= "<button class='pagination-button $active_class' data-page='$i'>$i</button>";
+        $html .= "<button class='pagination-button mdw__page_numbers $active_class' data-page='$i'>$i</button>";
       }
 
       // Si la página actual está lejos de las últimas páginas
@@ -25,7 +25,7 @@ function mdw_pagination($query, $current_page)
         for ($i = $current_page - 2; $i <= $current_page + 2; $i++) {
           if ($i <= 4 || $i >= $query->max_num_pages - 3) continue;
           $active_class = ($i === $current_page) ? 'active' : '';
-          $html .= "<button class='pagination-button $active_class' data-page='$i'>$i</button>";
+          $html .= "<button class='pagination-button mdw__page_numbers $active_class' data-page='$i'>$i</button>";
         }
         if ($current_page + 2 < ($query->max_num_pages - 4)) {
           $html .= "<span class='pagination-dots'>...</span>";
@@ -40,13 +40,13 @@ function mdw_pagination($query, $current_page)
           // continue;
         }
         $active_class = ($i === $current_page) ? 'active' : '';
-        $html .= "<button class='pagination-button $active_class' data-page='$i'>$i</button>";
+        $html .= "<button class='pagination-button mdw__page_numbers $active_class' data-page='$i'>$i</button>";
       }
     } else {
       // Si el total de páginas es menor o igual a 10, mostrar todas las páginas
       for ($i = 1; $i <= $query->max_num_pages; $i++) {
         $active_class = ($i === $current_page) ? 'active' : '';
-        $html .= "<button class='pagination-button $active_class' data-page='$i'>$i</button>";
+        $html .= "<button class='pagination-button mdw__page_numbers $active_class' data-page='$i'>$i</button>";
       }
     }
 

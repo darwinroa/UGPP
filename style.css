@@ -16,20 +16,31 @@ This is the child theme for Hello Elementor theme, generated with Generate Child
   justify-content: center;
   gap: 5px;
 
-  .page-numbers {
+  .mdw__page_numbers {
     font-size: 12px;
     font-family: 'Montserrat', 'Segoe UI Semibold', sans-serif;
     font-weight: 600;
     color: #124491;
     padding: 8px;
     border-radius: 3px;
+    background: transparent;
+    border: none;
+    margin-top: 2rem;
 
-    &.current {
+    &.active {
       background-color: #36C;
       color: white;
     }
   }
+  
+  .pagination-dots {
+    padding: 0 10px;
+    color: #666;
+    font-weight: bold;
+    cursor: default;
+  }
 }
+
 
 /*Estilos del input search*/
 .mdw__search_field {
@@ -115,17 +126,4 @@ This is the child theme for Hello Elementor theme, generated with Generate Child
   font-family: 'Work Sans';
   font-size: 11px;
   color: #484848;
-}
-
-.pagination-button {
-  &.active {
-    background-color: green;
-  }
-}
-
-.pagination-dots {
-  padding: 0 10px;
-  color: #666;
-  font-weight: bold;
-  cursor: default;
 }
