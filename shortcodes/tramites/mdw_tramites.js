@@ -91,6 +91,7 @@ jQuery(document).ready(function ($) {
         action: 'mdw_tramite_ajax_filter',
         nonce: wp_ajax.nonce,
         post_per_page: wp_ajax.post_per_page,
+        post_type: wp_ajax.post_type,
         search,
         page, // Incluir el número de página en la solicitud
       },

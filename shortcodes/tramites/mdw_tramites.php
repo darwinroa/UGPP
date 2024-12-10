@@ -2,15 +2,26 @@
 if (!function_exists('mdw_tramites_function')) {
   add_shortcode('mdw_tramites', 'mdw_tramites_function');
 
-  function mdw_tramites_function()
+  function mdw_tramites_function($atts)
   {
-    $post_per_page = 6;
+    // Definir los atributos aceptados y sus valores predeterminados
+    $attributes = shortcode_atts(
+      array(
+        'post_type'     => 'tramites',
+        'post_per_page' => 6
+      ),
+      $atts
+    );
+
+    $postType = $attributes['post_type'];
+    $post_per_page = $attributes['post_per_page'];
 
     wp_enqueue_script('mdw-tramite-script', get_stylesheet_directory_uri() . '/shortcodes/tramites/mdw_tramites.js', array('jquery'), null, true);
     wp_localize_script('mdw-tramite-script', 'wp_ajax', array(
       'ajax_url'            => admin_url('admin-ajax.php'),
       'nonce'               => wp_create_nonce('load_more_nonce'),
       'theme_directory_uri' => get_stylesheet_directory_uri(),
+      'post_type'           => $postType,
       'post_per_page'       => $post_per_page,
     ));
 
@@ -70,11 +81,12 @@ if (!function_exists('mdw_tramite_ajax_filter')) {
     // Obtener la página y otros parámetros del POST
     $page = $_POST['page'];
     $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+    $post_type = $_POST['post_type'];
     $post_per_page = $_POST['post_per_page'];
 
     // Configurar los argumentos de la consulta, incluyendo la paginación
     $args = array(
-      'post_type'       => 'tramites',
+      'post_type'       => $post_type,
       'post_status'     => 'publish',
       'posts_per_page'  => $post_per_page,
       'paged'           => $page, // Usar la página actual
