@@ -9,9 +9,15 @@ jQuery(document).ready(function($) {
   var pageParam = urlParams.get('page');
 
   var filterParam = '';
+
+  $('.mdw__taxonomy_filter-item').on('click', function () {
+    // Limpiar el valor del input con ID mdw-search-normas
+    $('#mdw-search-normas').val('');
+  });
   
   if (searchParam) {
     $('#mdw-search-normas').val(searchParam); // Establecer el valor en el campo de búsqueda
+    $('#mdw__slug_taxonomy').val(''); // Limpiar el valor del campo de taxonomía
   }
 
   // Si el parámetro `page` existe, actualizar el valor de la página
@@ -25,6 +31,7 @@ jQuery(document).ready(function($) {
     isLoadMore = false;
     var search = $('#mdw-search-normas').val();
     // Actualizar la URL con el nuevo parámetro de búsqueda
+    $('#mdw__slug_taxonomy').val(''); // Limpiar el valor del campo de taxonomía
     updateURL(search, page);
     mdwNormasAjax();
   });
@@ -43,6 +50,7 @@ jQuery(document).ready(function($) {
       ajaxRequest.abort();
     }
 
+    $('#mdw__slug_taxonomy').val(''); // Limpiar el valor del campo de taxonomía
     // Obtener el valor de búsqueda y actualizar la URL
     var search = $('#mdw-search-normas').val();
     updateURL(search, page);
