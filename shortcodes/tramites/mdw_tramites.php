@@ -88,6 +88,8 @@ if (!function_exists('mdw_tramite_ajax_filter')) {
     $args = array(
       'post_type'       => $post_type,
       'post_status'     => 'publish',
+      'orderby'         => 'menu_order',
+      'order'           => 'ASC',
       'posts_per_page'  => $post_per_page,
       'paged'           => $page, // Usar la página actual
       's'               => $search, // Filtrar por búsqueda si hay
