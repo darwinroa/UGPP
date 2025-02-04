@@ -103,3 +103,30 @@ if (!function_exists('mdw_tramite_ajax_filter')) {
     wp_die();
   }
 }
+
+/**
+ * Shortcode para la url
+ */
+add_shortcode('mdw_tramites_url', 'mdw_tramites_url_function');
+
+function mdw_tramites_url_function() {
+  $same_tab = get_field('nueva_pestana');
+  $url = get_field('link_del_tramite');
+  if ($same_tab) {
+    $html = '
+              <a class="elementor-button elementor-button-link elementor-size-sm" href="' . $url . '">
+                <span class="elementor-button-content-wrapper">
+                  <span class="elementor-button-text">Más en Gov.co</span>
+                </span>
+              </a>';
+  } else {
+    $html = '
+              <a class="elementor-button elementor-button-link elementor-size-sm" href="' . $url . '" target="_blank">
+                <span class="elementor-button-content-wrapper">
+                  <span class="elementor-button-text">Más en Gov.co</span>
+                </span>
+              </a>';
+  }
+
+  return $html;
+}
