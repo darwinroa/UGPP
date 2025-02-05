@@ -165,3 +165,30 @@ if (!function_exists('mdw_type_file_function')) {
     return $html;
   }
 }
+
+/**
+ * Shortcode para la url
+ */
+add_shortcode('mdw_normas_url', 'mdw_normas_url_function');
+
+function mdw_normas_url_function() {
+  $same_tab = get_field('nueva_pestana_normas');
+  $url = get_field('cargar_documento')['url'];
+  if ($same_tab) {
+    $html = '
+              <a class="elementor-button elementor-button-link elementor-size-sm" href="' . $url . '">
+                <span class="elementor-button-content-wrapper">
+                  <span class="elementor-button-text">Conozca más</span>
+                </span>
+              </a>';
+  } else {
+    $html = '
+              <a class="elementor-button elementor-button-link elementor-size-sm" href="' . $url . '" target="_blank">
+                <span class="elementor-button-content-wrapper">
+                  <span class="elementor-button-text">Conozca más</span>
+                </span>
+              </a>';
+  }
+
+  return $html;
+}
