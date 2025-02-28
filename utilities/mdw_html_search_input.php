@@ -20,7 +20,13 @@ function mdw_html_search_field($atts)
 
   return "
     <form id='mdw-search-form-$postType' class='mdw__search_field'>
-      <input type='text' id='mdw-search-$postType' class='mdw__search_input' name='search' placeholder='$placeholder'>
+      <input 
+        type='text' 
+        id='mdw-search-$postType' 
+        aria-label='$placeholder' 
+        class='mdw__search_input' 
+        name='search' 
+        placeholder='$placeholder'>
       <span class='mdw__search_icon'></span>
     </form>
     ";

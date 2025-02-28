@@ -123,7 +123,7 @@ function mdw_tramites_url_function() {
     $html = '
               <a class="elementor-button elementor-button-link elementor-size-sm" href="' . $url . '" target="_blank">
                 <span class="elementor-button-content-wrapper">
-                  <span class="elementor-button-text">Más en Gov.co</span>
+                  <span class="elementor-button-text">Conozca más</span>
                 </span>
               </a>';
   }
